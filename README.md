@@ -11,11 +11,11 @@ You can use any boilerplate/approach you prefer, but try to keep it simple. We e
 
 * **Signup:** Input forms;
 
-  _Think about inline validation, error messages, floating labels and loading state
+  _Think about inline validation, error messages, floating labels and loading state_
 
 * **Success:** Thank you page;
 
-  _Think about dynamic data and go back and edit function
+  _Think about dynamic data and go back and edit function_
 
 The purpose of this challenge is to evaluate your HTML, CSS, Javascript and React API skills and overall approach while composing a simple web app given a set of screens and an API feed. We will also assess the HTML, CSS, and JS output.
 
@@ -51,5 +51,3 @@ The purpose of this challenge is to evaluate your HTML, CSS, Javascript and Reac
 ### Contact or doubts
 
 Use the [issues](https://github.com/GreentechChallenge/frontend-challenge/issues) or send us an email: jan@greentechchallenge.eu
-
-_Break a leg!_
