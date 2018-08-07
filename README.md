@@ -46,7 +46,7 @@ The purpose of this challenge is to evaluate your HTML, CSS, Javascript and Reac
 
 #### Screens: 
 
-
+You can check the screen design and flow here: https://app.greentechchallenge.eu/version-test/signup (It is our staging environment. You can signup if you like;)
 
 ### Contact or doubts
 
