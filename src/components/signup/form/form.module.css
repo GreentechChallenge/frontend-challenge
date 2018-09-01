@@ -1,4 +1,8 @@
-textarea{
+.textarea{
     min-height:116px;
     resize: vertical;
+}
+
+.inputSearch{
+    cursor: pointer;
 }

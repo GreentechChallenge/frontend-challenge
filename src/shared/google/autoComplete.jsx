@@ -8,13 +8,12 @@ export class GoogleSearch extends React.Component {
     }
 
     onChange(e) {
-        const { types = ['(cities)'] } = this.props;
+        const { types = ["(cities)"] } = this.props;
 
         if (e.target.value) {
             this.service.getPlacePredictions({ input: e.target.value, types }, (predictions, status) => {
-                if (status === 'OK' && predictions && predictions.length > 0) {
+                if (status === "OK" && predictions && predictions.length > 0) {
                     this.props.onOpen(predictions);
-                    console.log(predictions);
                 } else {
                     this.props.onClose();
                 }
@@ -26,10 +25,10 @@ export class GoogleSearch extends React.Component {
 
     componentDidMount() {
         if (this.props.input.value) {
-            this.placeService = new window.google.maps.places.PlacesService(this.refs.div);
+            this.placeService = new window.google.maps.places.PlacesService(this.inputElement.div);
             this.placeService.getDetails({ placeId: this.props.input.value }, (e, status) => {
-                if (status === 'OK') {
-                    this.refs.input.value = e.formatted_address;
+                if (status === "OK") {
+                    this.inputElement.value = e.formatted_address;
                 }
             });
         }
@@ -41,13 +40,13 @@ export class GoogleSearch extends React.Component {
                 {React.cloneElement(this.props.input,
                     {
                         ...this.props,
-                        ref: 'input',
+                        ref: "input",
                         onChange: (e) => {
                             this.onChange(e);
-                        },
+                        }
                     }
                 )}
-                <div ref="div"></div>
+                <div inputRef="div"></div>
             </div>
         );
     }
