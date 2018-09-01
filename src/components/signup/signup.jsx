@@ -1,6 +1,6 @@
 import React from "react";
 import banner from "./../../assets/banner.jpg";
-import styles from './signup.module.css';
+import styles from "./signup.module.css";
 import SignupForm from "./form/form";
 
 
@@ -29,6 +29,6 @@ export default class Signup extends React.Component {
 
             </React.Fragment>
 
-        )
+        );
     }
 }

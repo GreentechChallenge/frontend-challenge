@@ -1,7 +1,6 @@
 import React from "react";
 import { challanges } from "./mock";
 import styles from "./form.module.css";
-import Geosuggest from 'react-geosuggest';
 import { GoogleSearch } from "../../../shared/google/autoComplete";
 
 export default class SignupForm extends React.Component {
@@ -12,23 +11,20 @@ export default class SignupForm extends React.Component {
         this.state = {
             challanges: [],
             searchCity: []
-        }
+        };
 
         this.handleSearchOpen = this.handleSearchOpen.bind(this);
         this.handleSearchClose = this.handleSearchClose.bind(this);
         this.changeCity = this.changeCity.bind(this);
     }
 
-    componentWillMount() {
+    componentDidMount() {
         challanges.then((response) => {
-            this.setState({ challanges: response })
+            this.setState({ challanges: response });
 
-        }).catch((err) => {
-            console.error(err);
-        })
+        }).catch(() => {
 
-
-
+        });
     }
 
     changeCity(e) {
@@ -39,12 +35,16 @@ export default class SignupForm extends React.Component {
     async handleSearchOpen(e) {
 
         const searchElement = await e.map((city) => {
-            return <li onClick={this.changeCity}>{city.description}</li>
-        })
+            return (
+                <li key={city.id}
+                    onClick={this.changeCity}>
+                    {city.description}
+                </li>);
+        });
 
         this.setState({
             searchCity: searchElement
-        })
+        });
 
 
     }
@@ -52,7 +52,7 @@ export default class SignupForm extends React.Component {
     handleSearchClose() {
         this.setState({
             searchCity: []
-        })
+        });
     }
 
 
@@ -71,35 +71,35 @@ export default class SignupForm extends React.Component {
 
                 <div className="form-group">
                     <label>Name of contact person</label>
-                    <input className="input-block" placeholder="Name of contact person" />
+                    <input type="text" className="input-block" placeholder="Name of contact person" />
                 </div>
 
                 <div className="form-group">
                     <label>Phone number (incl. country code) of contact person</label>
-                    <input className="input-block" placeholder="Phone number (incl. country code) of contact person" />
+                    <input type="text" className="input-block" placeholder="Phone number (incl. country code) of contact person" />
                 </div>
 
                 <div className="form-group">
                     <label>Email of contact person</label>
-                    <input className="input-block" placeholder="Email of contact person" />
+                    <input type="text" className="input-block" placeholder="Email of contact person" />
                 </div>
 
                 <div className="form-group">
                     <label>Company registration name</label>
-                    <input className="input-block" placeholder="Company registration name" />
+                    <input type="text" className="input-block" placeholder="Company registration name" />
                 </div>
 
                 <div className="form-group">
                     <label>Date of Incorporation</label>
-                    <input className="input-block" placeholder="Date of Incorporation" />
+                    <input type="text" className="input-block" placeholder="Date of Incorporation" />
                 </div>
 
                 <div className="form-group">
                     <label>Company address</label>
                     <GoogleSearch
-                        input={<input ref={(input) => this.city = input}></input>}
+                        input={<input type="text" ref={(input) => this.city = input}></input>}
                         onOpen={this.handleSearchOpen} onClose={this.handleSearchClose}
-                        className="input-block"
+                        className={styles.inputSearch + " input-block"}
                         placeholder="Company address"
                         onBlur={this.handleSearchClose}
                     />
@@ -114,7 +114,7 @@ export default class SignupForm extends React.Component {
 
                 <div className="form-group">
                     <label>VAT number (Company registration number)</label>
-                    <input className="input-block" placeholder="VAT number (Company registration number)" />
+                    <input type="text" className="input-block" placeholder="VAT number (Company registration number)" />
                 </div>
 
                 <div className="form-group">
@@ -124,17 +124,17 @@ export default class SignupForm extends React.Component {
 
                 <div className="form-group">
                     <label>Link to company website</label>
-                    <input className="input-block" placeholder="Link to company website" />
+                    <input type="text" className="input-block" placeholder="Link to company website" />
                 </div>
 
                 <div className="form-group">
                     <label>Link to product/service video (Youtube, Vimeo, etc.)</label>
-                    <input className="input-block" placeholder="Link to product/service video (Youtube, Vimeo, etc.)" />
+                    <input type="text" className="input-block" placeholder="Link to product/service video (Youtube, Vimeo, etc.)" />
                 </div>
 
                 <button className="button-center"> Apply </button>
 
             </form>
-        )
+        );
     }
 }
