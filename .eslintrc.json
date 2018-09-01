@@ -32,6 +32,5 @@
             "error",
             "always"
         ],
-        "mocha/no-exclusive-tests": "error"
     }
 }
