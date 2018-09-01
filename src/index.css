@@ -17,6 +17,9 @@ body{
   font-family: Helvetica, Arial, sans-serif;
 }
 
+li{
+  list-style-type: none;
+}
 
 /* Responsive */
 
@@ -193,4 +196,26 @@ button:hover, select:hover{
   button{
     width: 100%;
   }
+}
+
+.dropmenu-content{
+  float: left;
+  background-color: #fff;
+  width: 100%;
+  margin-top: -1em;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+  cursor: pointer;
+  padding: 0.4em 0;
+}
+
+.dropmenu-content li{
+ padding: 0.5em 2em;
+ font-size: 0.8em;
+}
+
+.dropmenu-content li:hover{
+  background-color: #5e7cf1;
+  color: #fff;
+
 }

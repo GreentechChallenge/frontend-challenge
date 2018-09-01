@@ -10,8 +10,13 @@ export default class SignupForm extends React.Component {
         super(props);
 
         this.state = {
-            challanges: []
+            challanges: [],
+            searchCity: []
         }
+
+        this.handleSearchOpen = this.handleSearchOpen.bind(this);
+        this.handleSearchClose = this.handleSearchClose.bind(this);
+        this.changeCity = this.changeCity.bind(this);
     }
 
     componentWillMount() {
@@ -26,8 +31,28 @@ export default class SignupForm extends React.Component {
 
     }
 
-    handleSearch(e) {
+    changeCity(e) {
+        this.city = e.target.textContent;
+        this.handleSearchClose();
+    }
 
+    async handleSearchOpen(e) {
+
+        const searchElement = await e.map((city) => {
+            return <li onClick={this.changeCity}>{city.description}</li>
+        })
+
+        this.setState({
+            searchCity: searchElement
+        })
+
+
+    }
+
+    handleSearchClose() {
+        this.setState({
+            searchCity: []
+        })
     }
 
 
@@ -71,11 +96,20 @@ export default class SignupForm extends React.Component {
 
                 <div className="form-group">
                     <label>Company address</label>
-                    <GoogleSearch input={<input ref={(input) => this.search = input}></input>} onOpen={this.handleSearch} onClose={this.handleSearch} className="input-block" placeholder="Company address" >
-
-                    </GoogleSearch>
-
-
+                    <GoogleSearch
+                        input={<input ref={(input) => this.city = input}></input>}
+                        onOpen={this.handleSearchOpen} onClose={this.handleSearchClose}
+                        className="input-block"
+                        placeholder="Company address"
+                        onBlur={this.handleSearchClose}
+                    />
+                    {(this.state.searchCity.length > 0) ?
+                        <span className="dropmenu-content">
+                            <ul>
+                                {this.state.searchCity}
+                            </ul>
+                        </span>
+                        : null}
                 </div>
 
                 <div className="form-group">
