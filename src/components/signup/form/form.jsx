@@ -363,7 +363,6 @@ export default class SignupForm extends React.Component {
                 <div className="form-group">
                     <label className={this.state.labels.description}>Short description of the company</label>
                     <TextArea
-                        height="116px"
                         name="description"
                         onChange={(e) => {
                             this.handleChange(e);
