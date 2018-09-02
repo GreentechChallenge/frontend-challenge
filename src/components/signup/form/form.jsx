@@ -27,12 +27,8 @@ export default class SignupForm extends React.Component {
     // Life Cicle
 
     componentDidMount() {
-        challenges.then((response) => {
-            this.setState({ challenges: response });
+        this.setState({ challenges: challenges });
 
-        }).catch(() => {
-
-        });
     }
 
 
@@ -271,36 +267,41 @@ export default class SignupForm extends React.Component {
                     />
                 </div>
 
-                <div className="form-group">
-                    <label className={this.state.labels.company}>Company registration name</label>
-                    <input
-                        onChange={(e) => {
-                            this.handleChange(e);
-                            this.handleOnChangeLabel(e);
-                        }}
-                        onBlur={(e) => this.handleOnBlurValidation(e)}
-                        name="company"
-                        type="text"
-                        value={this.state.company}
-                        className={this.state.error.company + " input-block"}
-                        placeholder="Company registration name"
-                    />
+                <div className="form-group form-item-2">
+                    <div className="form-item ">
+                        <label className={this.state.labels.company}>Company registration name</label>
+                        <input
+                            onChange={(e) => {
+                                this.handleChange(e);
+                                this.handleOnChangeLabel(e);
+                            }}
+                            onBlur={(e) => this.handleOnBlurValidation(e)}
+                            name="company"
+                            type="text"
+                            value={this.state.company}
+                            className={this.state.error.company + " input-block"}
+                            placeholder="Company registration name"
+
+                        />
+                    </div>
+
+                    <div className="form-item">
+                        <label className={this.state.labels.date}>Date of Incorporation</label>
+                        <input
+                            onChange={(e) => {
+                                this.handleChange(e);
+                                this.handleOnChangeLabel(e);
+                            }}
+                            onBlur={(e) => this.handleOnBlurValidation(e)}
+                            name="date"
+                            type="text"
+                            value={this.state.date}
+                            className={this.state.error.date + " input-block"}
+                            placeholder="Date of Incorporation" />
+                    </div>
                 </div>
 
-                <div className="form-group">
-                    <label className={this.state.labels.date}>Date of Incorporation</label>
-                    <input
-                        onChange={(e) => {
-                            this.handleChange(e);
-                            this.handleOnChangeLabel(e);
-                        }}
-                        onBlur={(e) => this.handleOnBlurValidation(e)}
-                        name="date"
-                        type="text"
-                        value={this.state.date}
-                        className={this.state.error.date + " input-block"}
-                        placeholder="Date of Incorporation" />
-                </div>
+
 
                 <div className="form-group" >
                     <label className={this.state.labels.address}>Company address</label>
