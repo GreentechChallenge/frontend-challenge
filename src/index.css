@@ -142,7 +142,7 @@ h1{
   z-index: 1;
   cursor: pointer;
   height: 40px;
-  margin-bottom: 1em;
+  margin-bottom: 1.5em;
 }
 
 .auto-complete > input{
@@ -268,7 +268,7 @@ button:hover, select:hover{
   position: relative;
   float: left;
   width: 100%;
-  margin-top: -1em;
+  margin-top: -1.9em;
   z-index: 4;
   cursor: pointer;
   padding: 0.4em 0;

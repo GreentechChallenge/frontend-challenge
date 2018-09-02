@@ -3,6 +3,7 @@ import { challenges } from "./mock";
 import styles from "./form.module.css";
 import { GoogleSearch } from "../../../shared/google/autoComplete";
 import { validName, validPhone, validEmail, isNotNull, validDate } from "../../../shared/form/validation";
+import TextArea from "../../../shared/form/text-area";
 
 export default class SignupForm extends React.Component {
 
@@ -30,6 +31,7 @@ export default class SignupForm extends React.Component {
         this.setState({ challenges: challenges });
 
     }
+
 
 
 
@@ -360,12 +362,13 @@ export default class SignupForm extends React.Component {
 
                 <div className="form-group">
                     <label className={this.state.labels.description}>Short description of the company</label>
-                    <textarea
+                    <TextArea
                         name="description"
                         onChange={(e) => {
                             this.handleChange(e);
                             this.handleOnChangeLabel(e);
                         }}
+
                         onBlur={(e) => this.handleOnBlurValidation(e)}
                         value={this.state.description}
                         className={this.state.error.description + " input-block " + styles.textarea}
