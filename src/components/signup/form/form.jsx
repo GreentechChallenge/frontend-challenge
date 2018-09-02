@@ -10,12 +10,15 @@ export default class SignupForm extends React.Component {
 
         this.state = {
             challanges: [],
-            searchCity: []
+            searchCity: [],
+            searchPreview: "",
+            city: ""
         };
 
         this.handleSearchOpen = this.handleSearchOpen.bind(this);
         this.handleSearchClose = this.handleSearchClose.bind(this);
         this.changeCity = this.changeCity.bind(this);
+        this.handleChange = this.handleChange.bind(this);
     }
 
     componentDidMount() {
@@ -27,31 +30,78 @@ export default class SignupForm extends React.Component {
         });
     }
 
+
     changeCity(e) {
         this.city = e.target.textContent;
+        this.setState({
+            city: this.city
+        });
         this.handleSearchClose();
     }
 
+    handleChange(e) {
+
+        const { name, value } = e.target;
+        this.setState({
+            [name]: value
+        });
+    }
+
+    handleKeyDownSearch(e) {
+        const { selectionStart, value } = e.target;
+        const { searchPreview } = this.state;
+
+
+        if (selectionStart === value.length) {
+            if (e.key === "ArrowRight") {
+                this.setState({
+                    city: searchPreview
+                });
+                this.handleSearchClose();
+            }
+        }
+
+        if (e.key === "Tab") {
+            if (searchPreview.length > 0) {
+                e.preventDefault();
+                this.setState({
+                    city: searchPreview
+                });
+                this.handleSearchClose();
+            }
+        }
+
+
+    }
+
+
     async handleSearchOpen(e) {
+
+
+        const firstSearch = (e.length > 0) ? e[0].description : "";
 
         const searchElement = await e.map((city) => {
             return (
                 <li key={city.id}
-                    onClick={this.changeCity}>
+                    onMouseDown={this.changeCity} >
                     {city.description}
-                </li>);
+                </li >);
         });
 
+
         this.setState({
-            searchCity: searchElement
+            searchCity: searchElement,
+            searchPreview: this.state.city + firstSearch.slice(this.state.city.length)
         });
 
 
     }
 
+
     handleSearchClose() {
         this.setState({
-            searchCity: []
+            searchCity: [],
+            searchPreview: ""
         });
     }
 
@@ -94,17 +144,28 @@ export default class SignupForm extends React.Component {
                     <input type="text" className="input-block" placeholder="Date of Incorporation" />
                 </div>
 
-                <div className="form-group">
+                <div className="form-group" >
                     <label>Company address</label>
-                    <GoogleSearch
-                        input={<input type="text" ref={(input) => this.city = input}></input>}
-                        onOpen={this.handleSearchOpen} onClose={this.handleSearchClose}
-                        className={styles.inputSearch + " input-block"}
-                        placeholder="Company address"
-                        onBlur={this.handleSearchClose}
-                    />
+
+                    <div className="auto-complete" >
+                        <input type="text" className="input-block  autocomplete" disabled value={this.state.searchPreview} />
+
+                        <GoogleSearch
+                            input={<input type="text" ref={(input) => this.city = input} value={this.state.city}></input>}
+                            onOpen={this.handleSearchOpen} onClose={this.handleSearchClose}
+                            onBlur={this.handleSearchClose}
+                            name="city"
+                            onChange={(e) => this.handleChange(e)}
+                            onKeyDown={(e) => this.handleKeyDownSearch(e)}
+                            className={styles.inputSearch + "  input-block autocomplete"}
+                            placeholder="Company address"
+
+
+                        />
+                    </div>
+
                     {(this.state.searchCity.length > 0) ?
-                        <span className="dropmenu-content">
+                        <span className="dropmenu" >
                             <ul>
                                 {this.state.searchCity}
                             </ul>

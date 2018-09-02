@@ -42,11 +42,12 @@ export class GoogleSearch extends React.Component {
                         ...this.props,
                         ref: "input",
                         onChange: (e) => {
+                            this.props.onChange(e);
                             this.onChange(e);
                         }
                     }
                 )}
-                <div inputRef="div"></div>
+                <div inputref="div"></div>
             </div>
         );
     }

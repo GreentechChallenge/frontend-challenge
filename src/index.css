@@ -131,6 +131,24 @@ h1{
   }
 }
 
+.auto-complete input{
+  position: absolute;
+  background-color: transparent;
+}
+
+.auto-complete{
+  position: relative;
+  float: left;
+  width: 100%;
+  z-index: 1;
+  cursor: pointer;
+  height: 40px;
+  margin: 1em 0;
+}
+
+.auto-complete > input{
+  color:#b7a6c5;
+}
 
 /* Input */
 input, select, textarea{
@@ -198,24 +216,36 @@ button:hover, select:hover{
   }
 }
 
-.dropmenu-content{
+
+/* dropmenu */
+.dropmenu {
+  position: relative;
   float: left;
-  background-color: #fff;
   width: 100%;
   margin-top: -1em;
-  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
   z-index: 1;
   cursor: pointer;
   padding: 0.4em 0;
 }
 
-.dropmenu-content li{
+.dropmenu  ul {
+  position: absolute;
+  background-color: #fff;
+  min-width: 100%;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  padding: 12px 0;
+  z-index: 1;
+
+}
+
+.dropmenu li{
  padding: 0.5em 2em;
  font-size: 0.8em;
 }
 
-.dropmenu-content li:hover{
+.dropmenu li:hover{
   background-color: #5e7cf1;
   color: #fff;
 
 }
+
