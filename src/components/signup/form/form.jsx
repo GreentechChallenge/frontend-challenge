@@ -363,6 +363,7 @@ export default class SignupForm extends React.Component {
                 <div className="form-group">
                     <label className={this.state.labels.description}>Short description of the company</label>
                     <TextArea
+                        height="116px"
                         name="description"
                         onChange={(e) => {
                             this.handleChange(e);
@@ -386,6 +387,7 @@ export default class SignupForm extends React.Component {
                         onBlur={(e) => this.handleOnBlurValidation(e)}
                         value={this.state.website}
                         type="text"
+
                         className={this.state.error.website + " input-block"}
                         placeholder="Link to company website" />
                 </div>

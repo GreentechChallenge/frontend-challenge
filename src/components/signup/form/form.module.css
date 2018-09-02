@@ -1,6 +1,7 @@
 .textarea{
     min-height:116px;
-    resize: vertical;
+    resize: none;
+    transition: height 100ms ease-out;
 }
 
 .inputSearch{
