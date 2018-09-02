@@ -13,15 +13,18 @@ export default class SignupForm extends React.Component {
             challenges: [],
             searchaddress: [],
             searchPreview: "",
-            error: {}
+            error: {},
+            labels: {}
         };
 
         this.handleSearchOpen = this.handleSearchOpen.bind(this);
         this.handleSearchClose = this.handleSearchClose.bind(this);
-        this.changeaddress = this.changeaddress.bind(this);
+        this.handleClickChangeAddress = this.handleClickChangeAddress.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
+
+    // Life Cicle
 
     componentDidMount() {
         challenges.then((response) => {
@@ -32,6 +35,10 @@ export default class SignupForm extends React.Component {
         });
     }
 
+
+
+    // Validation Errors
+
     getClassError(isValid) {
 
         if (!isValid) {
@@ -41,33 +48,12 @@ export default class SignupForm extends React.Component {
 
 
 
-    changeaddress(e) {
-        this.setState({
-            address: e.target.textContent
-        });
-        this.handleSearchClose();
-    }
-
-    handleChange(e) {
-
-        const { name, value } = e.target;
-        this.setState({
-            [name]: value
-        });
-    }
-
     clearErrors() {
         this.setState({
             error: {}
         });
     }
 
-    handleSubmit(e) {
-        e.preventDefault();
-        this.clearErrors();
-        this.validationForm();
-
-    }
 
     validationForm() {
         this.setState({
@@ -86,6 +72,42 @@ export default class SignupForm extends React.Component {
             }
         });
     }
+
+    // Handles
+
+    handleChange(e) {
+
+        const { name, value } = e.target;
+        this.setState({
+            [name]: value
+        });
+    }
+
+
+    handleSubmit(e) {
+        e.preventDefault();
+        this.clearErrors();
+        this.validationForm();
+
+    }
+
+    handleClickChangeAddress(e) {
+        this.setState({
+            address: e.target.textContent
+        });
+        this.handleSearchClose();
+    }
+
+    handleOnChangeLabel(e) {
+        const { name, value } = e.target;
+        const className = isNotNull(value) ? "visible" : "";
+        const labels = { ...this.state.labels, ...{ [name]: className } };
+
+        this.setState({
+            labels: labels
+        });
+    }
+
 
     handleOnBlurValidation(e) {
         let { name, value } = e.target;
@@ -147,7 +169,7 @@ export default class SignupForm extends React.Component {
         const searchElement = await e.map((address) => {
             return (
                 <li key={address.id}
-                    onMouseDown={this.changeaddress} >
+                    onMouseDown={this.handleClickChangeAddress} >
                     {address.description}
                 </li >);
         });
@@ -169,16 +191,19 @@ export default class SignupForm extends React.Component {
         });
     }
 
-
+    // Render
     render() {
         return (
             <form className="col-2 mx-auto" onSubmit={this.handleSubmit}>
                 <div className="form-group">
-                    <label>Select a Challenge</label>
+                    <label className={this.state.labels.challenge}>Select a Challenge</label>
                     <select
                         name="challenge"
                         value={this.state.challenge}
-                        onChange={(e) => this.handleChange(e)}
+                        onChange={(e) => {
+                            this.handleChange(e);
+                            this.handleOnChangeLabel(e);
+                        }}
                         onBlur={(e) => this.handleOnBlurValidation(e)}
                         className={this.state.error.challenge + " input-block"} >
                         <option
@@ -200,9 +225,12 @@ export default class SignupForm extends React.Component {
                 </div>
 
                 <div className="form-group">
-                    <label>Name of contact person</label>
+                    <label className={this.state.labels.name}>Name of contact person</label>
                     <input
-                        onChange={(e) => this.handleChange(e)}
+                        onChange={(e) => {
+                            this.handleChange(e);
+                            this.handleOnChangeLabel(e);
+                        }}
                         onBlur={(e) => this.handleOnBlurValidation(e)}
                         name="name"
                         type="text"
@@ -212,9 +240,12 @@ export default class SignupForm extends React.Component {
                 </div>
 
                 <div className="form-group">
-                    <label>Phone number (incl. country code) of contact person</label>
+                    <label className={this.state.labels.phone}>Phone number (incl. country code) of contact person</label>
                     <input
-                        onChange={(e) => this.handleChange(e)}
+                        onChange={(e) => {
+                            this.handleChange(e);
+                            this.handleOnChangeLabel(e);
+                        }}
                         onBlur={(e) => this.handleOnBlurValidation(e)}
                         name="phone"
                         type="text"
@@ -224,9 +255,13 @@ export default class SignupForm extends React.Component {
                 </div>
 
                 <div className="form-group">
-                    <label>Email of contact person</label>
+                    <label className={this.state.labels.email}>Email of contact person</label>
                     <input
-                        onChange={(e) => this.handleChange(e)}
+                        onChange={(e) => {
+                            this.handleChange(e);
+                            this.handleOnChangeLabel(e);
+                        }}
+
                         onBlur={(e) => this.handleOnBlurValidation(e)}
                         name="email"
                         value={this.state.email}
@@ -237,9 +272,12 @@ export default class SignupForm extends React.Component {
                 </div>
 
                 <div className="form-group">
-                    <label>Company registration name</label>
+                    <label className={this.state.labels.company}>Company registration name</label>
                     <input
-                        onChange={(e) => this.handleChange(e)}
+                        onChange={(e) => {
+                            this.handleChange(e);
+                            this.handleOnChangeLabel(e);
+                        }}
                         onBlur={(e) => this.handleOnBlurValidation(e)}
                         name="company"
                         type="text"
@@ -250,9 +288,12 @@ export default class SignupForm extends React.Component {
                 </div>
 
                 <div className="form-group">
-                    <label>Date of Incorporation</label>
+                    <label className={this.state.labels.date}>Date of Incorporation</label>
                     <input
-                        onChange={(e) => this.handleChange(e)}
+                        onChange={(e) => {
+                            this.handleChange(e);
+                            this.handleOnChangeLabel(e);
+                        }}
                         onBlur={(e) => this.handleOnBlurValidation(e)}
                         name="date"
                         type="text"
@@ -262,7 +303,7 @@ export default class SignupForm extends React.Component {
                 </div>
 
                 <div className="form-group" >
-                    <label>Company address</label>
+                    <label className={this.state.labels.address}>Company address</label>
 
                     <div className="auto-complete" >
                         <input
@@ -280,7 +321,10 @@ export default class SignupForm extends React.Component {
                                 this.handleOnBlurValidation(e);
                             }}
                             name="address"
-                            onChange={(e) => this.handleChange(e)}
+                            onChange={(e) => {
+                                this.handleChange(e);
+                                this.handleOnChangeLabel(e);
+                            }}
                             onKeyDown={(e) => this.handleKeyDownSearch(e)}
                             className={styles.inputSearch + "  input-block autocomplete " + this.state.error.address}
                             placeholder="Company address"
@@ -299,10 +343,13 @@ export default class SignupForm extends React.Component {
                 </div>
 
                 <div className="form-group">
-                    <label>VAT number (Company registration number)</label>
+                    <label className={this.state.labels.vat}>VAT number (Company registration number)</label>
                     <input
                         name="vat"
-                        onChange={(e) => this.handleChange(e)}
+                        onChange={(e) => {
+                            this.handleChange(e);
+                            this.handleOnChangeLabel(e);
+                        }}
                         onBlur={(e) => this.handleOnBlurValidation(e)}
                         value={this.state.vat}
                         type="text"
@@ -311,10 +358,13 @@ export default class SignupForm extends React.Component {
                 </div>
 
                 <div className="form-group">
-                    <label>Short description of the company</label>
+                    <label className={this.state.labels.description}>Short description of the company</label>
                     <textarea
                         name="description"
-                        onChange={(e) => this.handleChange(e)}
+                        onChange={(e) => {
+                            this.handleChange(e);
+                            this.handleOnChangeLabel(e);
+                        }}
                         onBlur={(e) => this.handleOnBlurValidation(e)}
                         value={this.state.description}
                         className={this.state.error.description + " input-block " + styles.textarea}
@@ -322,10 +372,13 @@ export default class SignupForm extends React.Component {
                 </div>
 
                 <div className="form-group">
-                    <label>Link to company website</label>
+                    <label className={this.state.labels.website}>Link to company website</label>
                     <input
                         name="website"
-                        onChange={(e) => this.handleChange(e)}
+                        onChange={(e) => {
+                            this.handleChange(e);
+                            this.handleOnChangeLabel(e);
+                        }}
                         onBlur={(e) => this.handleOnBlurValidation(e)}
                         value={this.state.website}
                         type="text"
@@ -334,10 +387,13 @@ export default class SignupForm extends React.Component {
                 </div>
 
                 <div className="form-group">
-                    <label>Link to product/service video (Youtube, Vimeo, etc.)</label>
+                    <label className={this.state.labels.video}>Link to product/service video (Youtube, Vimeo, etc.)</label>
                     <input
                         name="video"
-                        onChange={(e) => this.handleChange(e)}
+                        onChange={(e) => {
+                            this.handleChange(e);
+                            this.handleOnChangeLabel(e);
+                        }}
                         onBlur={(e) => this.handleOnBlurValidation(e)}
                         value={this.state.video}
                         type="text"
