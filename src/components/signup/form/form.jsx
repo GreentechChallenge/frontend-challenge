@@ -386,6 +386,7 @@ export default class SignupForm extends React.Component {
                         onBlur={(e) => this.handleOnBlurValidation(e)}
                         value={this.state.website}
                         type="text"
+
                         className={this.state.error.website + " input-block"}
                         placeholder="Link to company website" />
                 </div>

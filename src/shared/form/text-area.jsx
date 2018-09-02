@@ -2,8 +2,14 @@ import React from "react";
 
 export default class TextArea extends React.Component {
 
+    resize(e) {
+        e.target.style.height = "auto";
+        e.target.style.height = e.target.scrollHeight + "px";
+    }
+
     autoGrowTextArea(e) {
         e = e.target;
+        console.log(e);
         if (e.clientHeight < e.scrollHeight) {
             e.style.height = e.scrollHeight + "px";
             if (e.clientHeight < e.scrollHeight) {
@@ -19,11 +25,12 @@ export default class TextArea extends React.Component {
 
         return (
             <textarea {...this.props}
+
                 style={{ overflow: "hidden" }}
-                onKeyUp={(e) => {
-                    this.autoGrowTextArea(e);
-                    if (this.props.onKeyUp) {
-                        this.props.onKeyUp(e);
+                onChange={(e) => {
+                    this.resize(e);
+                    if (this.props.onChange) {
+                        this.props.onChange(e);
                     }
                 }}>
                 {this.props.children}
