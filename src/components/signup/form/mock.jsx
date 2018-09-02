@@ -1,4 +1,4 @@
-export const challanges = new Promise((resolve, reject) => {
+export const challenges = new Promise((resolve, reject) => {
     setTimeout(function() {
         resolve([
             { id: 1, title: "Copenhagen - 2018" },
