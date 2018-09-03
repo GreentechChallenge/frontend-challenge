@@ -15,6 +15,7 @@ export default class SignupForm extends React.Component {
             searchaddress: [],
             searchPreview: "",
             error: {},
+            errorMessage: {},
             labels: {}
         };
 
@@ -111,22 +112,39 @@ export default class SignupForm extends React.Component {
         let { name, value } = e.target;
 
         let validation = isNotNull;
+        let message = "This field can not be empty";
 
         switch (name) {
             case "name": validation = validName;
+                message = "Please insert full name";
                 break;
             case "phone": validation = validPhone;
+                message = "Invalid number, please try only numbers";
                 break;
             case "email": validation = validEmail;
+                message = "Them email should be like example@example.ex";
                 break;
             case "date": validation = validDate;
+                message = "";
                 break;
         }
 
-        let errors = { ...this.state.error, ...{ [name]: this.getClassError(validation(value)) } };
+
+        const errors = {
+            ...this.state.error, ...{
+                [name]: this.getClassError(validation(value))
+            }
+        };
+
+        const errorsMessage = {
+            ...this.state.errorMessage, ...{
+                [name]: message
+            }
+        };
 
         this.setState({
-            error: errors
+            error: errors,
+            errorMessage: errorsMessage
         });
     }
 
@@ -208,6 +226,7 @@ export default class SignupForm extends React.Component {
                             disabled
                             selected
                             hidden
+                            value=""
                         >
                             Select a Challenge
                         </option>
@@ -220,6 +239,7 @@ export default class SignupForm extends React.Component {
                             </option>
                         )}
                     </select>
+                    <label className={"error-message " + this.state.error.challenge}>{this.state.errorMessage.challenge}</label>
                 </div>
 
                 <div className="form-group">

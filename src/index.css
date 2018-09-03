@@ -182,6 +182,15 @@ input.invalid, select.invalid, textarea.invalid{
   border-color:  #ff0000;
 }
 
+.error-message{
+  right:0;
+  color: #ff0000;
+}
+
+.error-message.invalid{
+  top:2em;
+}
+
 .form-group{
   white-space:nowrap;
   position: relative;
