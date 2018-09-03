@@ -102,7 +102,7 @@ class SignupForm extends React.Component {
             errorsMessage: {
                 name: "Please insert full name",
                 phone: "Invalid number, please try only numbers",
-                email: "Them email should be like example@example.ex",
+                email: "The email should be like example@example.ex",
                 challenge: "This field can not be empty",
                 company: "This field can not be empty",
                 address: "This field can not be empty",
@@ -225,7 +225,7 @@ class SignupForm extends React.Component {
                 message = "Invalid number, please try only numbers";
                 break;
             case "email": validation = validEmail;
-                message = "Them email should be like example@example.ex";
+                message = "The email should be like example@example.ex";
                 break;
             case "date": validation = (value) => {
                 return !isNotNull(value) || validDate(value);
