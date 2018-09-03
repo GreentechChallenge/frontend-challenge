@@ -127,9 +127,10 @@ class SignupForm extends React.Component {
     }
 
     handleChangeDate(value) {
+        let { labels } = this.state;
 
         const className = isNotNull(value) ? "visible" : "";
-        const labels = { ...this.state.labels, ...{ date: className } };
+        labels.date = className;
 
         this.setState({
             date: value,
@@ -183,11 +184,9 @@ class SignupForm extends React.Component {
     }
 
     submitError() {
-        const errors = {
-            ...this.state.errors, ...{
-                submit: "Sorry, something went wrong. Please try again"
-            }
-        };
+        let { errors } = this.state;
+        errors.submit = "Sorry, something went wrong. Please try again";
+
         this.setState({
             errors: errors
         });
@@ -202,8 +201,9 @@ class SignupForm extends React.Component {
 
     handleOnChangeLabel(e) {
         const { name, value } = e.target;
+        let { labels } = this.state;
         const className = isNotNull(value) ? "visible" : "";
-        const labels = { ...this.state.labels, ...{ [name]: className } };
+        labels[name] = className;
 
         this.setState({
             labels: labels
@@ -213,6 +213,7 @@ class SignupForm extends React.Component {
 
     handleOnBlurValidation(e) {
         let { name, value } = e.target;
+        let { errors, errorsMessage } = this.state;
 
         let validation = isNotNull;
         let message = "This field can not be empty";
@@ -231,25 +232,17 @@ class SignupForm extends React.Component {
                 return !isNotNull(value) || validDate(value);
             };
                 break;
+            // no default
         }
 
-
-        const errors = {
-            ...this.state.errors, ...{
-                [name]: this.getClassError(validation(value))
-            }
-        };
-
-        const errorsMessage = {
-            ...this.state.errorsMessage, ...{
-                [name]: message
-            }
-        };
+        errors[name] = this.getClassError(validation(value));
+        errorsMessage[name] = message;
 
         this.setState({
             errors: errors,
             errorsMessage: errorsMessage
         });
+
     }
 
     handleKeyDownSearch(e) {
@@ -338,7 +331,7 @@ class SignupForm extends React.Component {
         const searchElement = await e.map((address, key) => {
             return (
                 <li key={key}
-                    className={(searchSuggestions.suggestions.currentIndex == key) ? "active" : null}
+                    className={(searchSuggestions.suggestions.currentIndex === key) ? "active" : null}
                     onMouseDown={this.handleClickChangeAddress} >
                     {address.description}
                 </li >);

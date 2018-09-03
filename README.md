@@ -35,16 +35,16 @@ $ json-server --watch --port 3000 signup.db.json
 * Tip: To access the endpoints go to: http://localhost:PORT/
 
 
-## Tests
+## Build
 
 
-####  To initialize tests:
+#### To Generate a build package:
 
   
 ```
-$ npm test
+$ npm run build
 ```
-  
+
 
 ## Author
   
