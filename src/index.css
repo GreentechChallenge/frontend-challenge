@@ -318,9 +318,8 @@ button:hover, select:hover{
  font-size: 0.8em;
 }
 
-.dropmenu li:hover{
+.dropmenu li:hover, .dropmenu li.active{
   background-color: #5e7cf1;
   color: #fff;
-
 }
 

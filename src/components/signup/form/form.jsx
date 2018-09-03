@@ -18,7 +18,14 @@ class SignupForm extends React.Component {
         this.state = {
             challenges: [],
             searchaddress: [],
-            searchFirstPreview: "",
+            searchSuggestions: {
+                inputPreview: "",
+                searchPreview: "",
+                suggestions: {
+                    currentIndex: -1,
+                    itens: []
+                }
+            },
             searchPreview: "",
             errors: {},
             hasError: 0,
@@ -247,44 +254,103 @@ class SignupForm extends React.Component {
 
     handleKeyDownSearch(e) {
         const { selectionStart, value } = e.target;
-        const { searchPreview, searchFirstPreview } = this.state;
+        const { searchPreview, searchSuggestions } = this.state;
+        let { suggestions } = searchSuggestions;
 
 
         if (selectionStart === value.length) {
             if (searchPreview.length > 0) {
 
-                if (e.key === "Tab" || e.key === "ArrowRight") {
 
+                if (e.key === "ArrowRight") {
                     e.preventDefault();
+
+                    let i = (suggestions.currentIndex >= 0) ? suggestions.currentIndex : 0;
                     this.setState({
-                        address: searchFirstPreview
+                        address: searchSuggestions.suggestions.itens[i].description
                     });
                     this.handleSearchClose();
                 }
             }
+        }
 
+        if (searchPreview.length > 0) {
+
+            if (e.key === "Tab" || e.key === "Enter") {
+                e.preventDefault();
+
+                let i = (suggestions.currentIndex >= 0) ? suggestions.currentIndex : 0;
+                this.setState({
+                    address: searchSuggestions.suggestions.itens[i].description
+                });
+                this.handleSearchClose();
+            }
+
+            if (e.key === "Escape") {
+                e.preventDefault();
+                this.handleSearchClose();
+            }
+
+
+            if (e.key === "ArrowDown" || e.key === "ArrowUp") {
+                e.preventDefault();
+                let i;
+
+                if (e.key === "ArrowDown") {
+                    i = suggestions.currentIndex + 1;
+
+                    if (typeof suggestions.itens[i] === "undefined") {
+                        i = 0;
+                    }
+                } else {
+                    i = suggestions.currentIndex - 1;
+
+                    if (typeof suggestions.itens[i] === "undefined") {
+                        i = suggestions.itens.length - 1;
+                    }
+                }
+
+                const preview = suggestions.itens[i].description;
+
+                searchSuggestions.searchSuggestions = preview;
+                searchSuggestions.suggestions.currentIndex = i;
+
+
+
+                this.setState({
+                    address: preview,
+                    searchPreview: preview,
+                    searchSuggestions: searchSuggestions
+                });
+
+                this.handleSearchOpen(suggestions.itens, true);
+            }
         }
     }
 
 
-    async handleSearchOpen(e) {
+    async handleSearchOpen(e, placeholder = false) {
 
+        let { searchSuggestions } = this.state;
 
         const firstSearch = (e.length > 0) ? e[0].description : "";
 
-        const searchElement = await e.map((address) => {
+        const searchElement = await e.map((address, key) => {
             return (
-                <li key={address.id}
+                <li key={key}
+                    className={(searchSuggestions.suggestions.currentIndex == key) ? "active" : null}
                     onMouseDown={this.handleClickChangeAddress} >
                     {address.description}
                 </li >);
         });
 
 
+        searchSuggestions.suggestions.itens = e;
+
         this.setState({
-            searchFirstPreview: firstSearch,
+            searchSuggestions: searchSuggestions,
             searchaddress: searchElement,
-            searchPreview: this.state.address + firstSearch.slice(this.state.address.length)
+            searchPreview: (!placeholder) ? this.state.address + firstSearch.slice(this.state.address.length) : " "
         });
 
 
@@ -292,9 +358,13 @@ class SignupForm extends React.Component {
 
 
     handleSearchClose() {
+        let { searchSuggestions } = this.state;
+        searchSuggestions.suggestions.currentIndex = -1;
+
         this.setState({
             searchaddress: [],
-            searchPreview: ""
+            searchPreview: "",
+            searchSuggestions: searchSuggestions
         });
     }
 
