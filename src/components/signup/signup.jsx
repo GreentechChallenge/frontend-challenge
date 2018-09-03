@@ -2,13 +2,48 @@ import React from "react";
 import banner from "./../../assets/banner.jpg";
 import styles from "./signup.module.css";
 import SignupForm from "./form/form";
+import ProgressBar from "react-progress-bar-plus";
+import "react-progress-bar-plus/dist/react-progress-bar-plus.css";
+import Success from "./success/success";
 
 
-export default class Signup extends React.Component {
+class Signup extends React.Component {
+
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            loading: -1,
+            successRender: false
+        };
+
+        this.handleSuccessSubmit = this.handleSuccessSubmit.bind(this);
+    }
+
+
+    handleLoading(status) {
+        if (status) {
+            this.setState({
+                loading: 0
+            });
+        } else {
+            this.setState({
+                loading: 100
+            });
+        }
+    }
+
+    handleSuccessSubmit() {
+        this.setState({
+            successRender: true
+        });
+    }
+
 
     render() {
         return (
             <React.Fragment>
+                <ProgressBar percent={this.state.loading} autoIncrement={true} spinner={false} />
                 <div className="row">
                     <div className="col">
                         <div className={"mx-auto my-3 " + styles.banner}>
@@ -23,7 +58,10 @@ export default class Signup extends React.Component {
                 </div>
                 <div className="row">
                     <div className="col">
-                        <SignupForm />
+                        {(!this.state.successRender)
+                            ? <SignupForm successSubmit={this.handleSuccessSubmit} onLoading={(status) => this.handleLoading(status)} />
+                            : <Success />
+                        }
                     </div>
                 </div>
 
@@ -32,3 +70,5 @@ export default class Signup extends React.Component {
         );
     }
 }
+
+export default Signup;

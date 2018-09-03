@@ -11,6 +11,7 @@ export class GoogleSearch extends React.Component {
         const { types = ["(cities)"] } = this.props;
 
         if (e.target.value) {
+            this.props.onLoading(true);
             this.service.getPlacePredictions({ input: e.target.value, types }, (predictions, status) => {
                 if (status === "OK" && predictions && predictions.length > 0) {
                     this.props.onOpen(predictions);
@@ -18,9 +19,12 @@ export class GoogleSearch extends React.Component {
                     this.props.onClose();
                 }
             });
+            this.props.onLoading(false);
         } else {
             this.props.onClose();
         }
+
+
     }
 
     componentDidMount() {
