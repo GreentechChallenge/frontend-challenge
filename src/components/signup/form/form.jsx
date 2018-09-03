@@ -4,6 +4,8 @@ import styles from "./form.module.css";
 import { GoogleSearch } from "../../../shared/google/autoComplete";
 import { validName, validPhone, validEmail, isNotNull, validDate } from "../../../shared/form/validation";
 import TextArea from "../../../shared/form/text-area";
+import { ReactDatez } from "react-datez";
+import "react-datez/dist/css/react-datez.css";
 
 export default class SignupForm extends React.Component {
 
@@ -22,14 +24,20 @@ export default class SignupForm extends React.Component {
         this.handleSearchClose = this.handleSearchClose.bind(this);
         this.handleClickChangeAddress = this.handleClickChangeAddress.bind(this);
         this.handleChange = this.handleChange.bind(this);
+        this.handleChangeDate = this.handleChangeDate.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     // Life Cicle
 
     componentDidMount() {
-        this.setState({ challenges: challenges });
+        this.setState({
+            challenges: [...challenges.sort(function (a, b) {
+                console.log(a);
+                return (a.title > b.title) ? 1 : ((b.title > a.title) ? -1 : 0);
+            })]
 
+        })
     }
 
 
@@ -59,19 +67,19 @@ export default class SignupForm extends React.Component {
                 name: this.getClassError(validName(this.state.name)),
                 phone: this.getClassError(validPhone(this.state.phone)),
                 email: this.getClassError(validEmail(this.state.email)),
-                date: this.getClassError(validDate(this.state.date)),
+                date: this.getClassError(!isNotNull(this.state.date) || validDate(this.state.date)),
                 challenge: this.getClassError(isNotNull(this.state.challenge)),
                 company: this.getClassError(isNotNull(this.state.company)),
                 address: this.getClassError(isNotNull(this.state.address)),
                 vat: this.getClassError(isNotNull(this.state.vat)),
                 description: this.getClassError(isNotNull(this.state.description)),
-                website: this.getClassError(isNotNull(this.state.website)),
-                video: this.getClassError(isNotNull(this.state.video))
+                website: this.getClassError(isNotNull(this.state.website))
             }
         });
     }
 
     // Handles
+
 
     handleChange(e) {
 
@@ -79,6 +87,18 @@ export default class SignupForm extends React.Component {
         this.setState({
             [name]: value
         });
+    }
+
+    handleChangeDate(value) {
+
+        const className = isNotNull(value) ? "visible" : "";
+        const labels = { ...this.state.labels, ...{ date: className } };
+
+        this.setState({
+            date: value,
+            labels: labels
+        });
+
     }
 
 
@@ -119,7 +139,9 @@ export default class SignupForm extends React.Component {
                 break;
             case "email": validation = validEmail;
                 break;
-            case "date": validation = validDate;
+            case "date": validation = (value) => {
+                return !isNotNull(value) || validDate(value);
+            };
                 break;
         }
 
@@ -289,17 +311,18 @@ export default class SignupForm extends React.Component {
 
                     <div className="form-item">
                         <label className={this.state.labels.date}>Date of Incorporation</label>
-                        <input
-                            onChange={(e) => {
-                                this.handleChange(e);
-                                this.handleOnChangeLabel(e);
-                            }}
-                            onBlur={(e) => this.handleOnBlurValidation(e)}
+                        <ReactDatez
+
                             name="date"
-                            type="text"
+                            handleChange={this.handleChangeDate}
                             value={this.state.date}
-                            className={this.state.error.date + " input-block"}
-                            placeholder="Date of Incorporation" />
+                            placeholder="Date of Incorporation"
+                            className={this.state.error.date + " input-block " + styles.inputDate}
+                            allowPast={true}
+                            allowFuture={false}
+                            disableInputIcon={true}
+
+                        />
                     </div>
                 </div>
 
@@ -311,7 +334,7 @@ export default class SignupForm extends React.Component {
                     <div className="auto-complete" >
                         <input
                             type="text"
-                            className="input-block  autocomplete"
+                            className="input-block  "
                             disabled
                             value={this.state.searchPreview}
                         />
@@ -329,7 +352,7 @@ export default class SignupForm extends React.Component {
                                 this.handleOnChangeLabel(e);
                             }}
                             onKeyDown={(e) => this.handleKeyDownSearch(e)}
-                            className={styles.inputSearch + "  input-block autocomplete " + this.state.error.address}
+                            className={styles.inputSearch + "  input-block  " + this.state.error.address}
                             placeholder="Company address"
 
 
@@ -371,7 +394,7 @@ export default class SignupForm extends React.Component {
 
                         onBlur={(e) => this.handleOnBlurValidation(e)}
                         value={this.state.description}
-                        className={this.state.error.description + " input-block " + styles.textarea}
+                        className={this.state.error.description + " input-block "}
                         placeholder="Short description of the company" />
                 </div>
 
@@ -399,7 +422,6 @@ export default class SignupForm extends React.Component {
                             this.handleChange(e);
                             this.handleOnChangeLabel(e);
                         }}
-                        onBlur={(e) => this.handleOnBlurValidation(e)}
                         value={this.state.video}
                         type="text"
                         className={this.state.error.video + " input-block"}

@@ -7,18 +7,6 @@ export default class TextArea extends React.Component {
         e.target.style.height = e.target.scrollHeight + "px";
     }
 
-    autoGrowTextArea(e) {
-        e = e.target;
-        console.log(e);
-        if (e.clientHeight < e.scrollHeight) {
-            e.style.height = e.scrollHeight + "px";
-            if (e.clientHeight < e.scrollHeight) {
-                e.style.height =
-                    (e.scrollHeight * 2 - e.clientHeight) + "px";
-            }
-        }
-    }
-
 
     render() {
 
