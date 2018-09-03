@@ -108,9 +108,11 @@ img{
   text-align: center;
 }
 
-.input-block{
+.input-block, .input-block input{
   width: 100%;
 }
+
+
 
 
 /* Typograph */
@@ -133,7 +135,7 @@ h1{
 
 .auto-complete input{
   position: absolute;
-  background-color: #fff;
+  background-color: transparent;
 }
 
 .auto-complete{
@@ -147,6 +149,7 @@ h1{
 
 .auto-complete > input{
   color:#b7a6c5;
+  background-color: #fff;
 }
 
 /* Input */
@@ -231,12 +234,12 @@ input.invalid, select.invalid, textarea.invalid{
   }
 
   .form-item-2 .form-item:first-child{
-    width: 68%;
-    margin-right: 1em;
+    width: 60%;
+    margin-right: 4%;
   }
 
   .form-item-2 .form-item:last-child{
-    width: 29%;
+    width: 36%;
 
   }
 }
