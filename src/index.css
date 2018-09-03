@@ -1,5 +1,326 @@
-body {
+
+/* General Styles */
+
+body{
+  background-color: #f7f7f7;
+}
+
+* {
+ 
   margin: 0;
   padding: 0;
   font-family: sans-serif;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  color: #5a5a5a;
+  font-family: Helvetica, Arial, sans-serif;
 }
+
+li{
+  list-style-type: none;
+}
+
+/* Responsive */
+
+
+/* Container */
+.container {
+  width: 100%;
+  margin: 0 auto;
+  padding: 20px 20px;
+  background-color: #fff;
+}
+
+@media (min-width: 1170px){
+  .container {
+    max-width: 1170px;
+    margin: 4em auto;
+    padding: 20px 100px;
+  }
+}
+
+
+/* Row */
+.row {
+  margin-left: -5px;
+  margin-right: -5px;
+}
+
+.row:before {
+  content: "";
+  display: table;
+}
+
+.row:after {
+  clear: both;
+}
+
+
+/* Col */
+.col {
+  display: inline-block;
+  vertical-align: top;
+  min-width: 1px;
+  padding-left: 5px;
+  padding-right: 5px;
+  width: 100%;
+  margin-right: -4px;
+  *zoom: 1;
+  *display: inline;
+}
+
+@media (min-width: 712px){
+.col-2 {
+  width: 50%;
+}
+}
+
+/* Media */
+
+img{
+  width: 100%;
+}
+
+
+/* Align / Margin / Padding */
+.mx-auto{
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.mt-1{
+  margin-top: 1em;
+}
+
+.my-3{
+  margin-top:3em;
+  margin-bottom:3em;
+}
+
+.mt-3{
+  margin-top:3em;
+}
+
+.mb-1{
+  margin-bottom:1em;
+}
+
+
+
+.text-center{
+  text-align: center;
+}
+
+.text-bold{
+  font-weight: bold;
+}
+
+
+
+
+/* Typograph */
+p{
+  margin-bottom: 1em;
+}
+
+h1{
+  margin-bottom: 1em;
+  font-size: 2.66em;
+}
+
+
+
+@media (max-width: 940px){
+  h1{
+    font-size: 2em;
+  }
+}
+
+.auto-complete input{
+  position: absolute;
+  background-color: transparent;
+}
+
+.auto-complete{
+  position: relative;
+  width: 100%;
+  z-index: 1;
+  cursor: pointer;
+  height: 40px;
+  margin-bottom: 1.5em;
+}
+
+.auto-complete > input{
+  color:#b7a6c5;
+  background-color: #fff;
+}
+
+/* Input */
+input, select, textarea{
+  height: 40px;
+  outline: none;
+  border: 1px solid #ccc;
+  color: #555555;
+  border-radius: 3px;
+  padding: 0px 4px;
+  margin: 2em 0;
+  transition: border -color 200ms ease 0s, box-shadow 200ms ease 0s;
+  -moz-transition: border-color 200ms ease 0s, box-shadow 200ms ease 0s;
+  -webkit-transition:  border-color 200ms ease 0s, box-shadow 200ms ease 0s;
+  -o-transition:  border-color 200ms ease 0s, box-shadow 200ms ease 0s;
+  
+  position: relative;
+  box-shadow: none;
+}
+
+.input-block, .input-block input{
+  width: 100%;
+}
+
+
+textarea{
+  font-size: 0.9em;
+  line-height: 1;
+}
+
+input:focus, select:focus, textarea:focus{
+  box-shadow: #52a8ec 0px 0px 6px 0px;
+  border-color:  #52a8ec;
+}
+
+
+/* Input Errors */
+input.invalid, select.invalid, textarea.invalid{
+  box-shadow: #ff0000 0px 0px 6px 0px;
+  border-color:  #ff0000;
+}
+
+
+.error-message{
+  right:0;
+  color: #ff0000;
+}
+
+.error-message.invalid{
+  top:2em;
+}
+
+/* Input with labels */
+
+.form-group{
+  white-space:nowrap;
+  position: relative;
+}
+
+.form-group  input, .form-group  textarea, .form-group  select{
+  margin-top: 0;
+  padding-top:0;
+  z-index: 2;
+}
+
+.form-group  textarea{
+  padding-top:0.5em;
+}
+
+.form-group label{
+  display: block;
+  position: absolute;
+  box-sizing: border-box;
+  font-size: 0.7em;
+  margin-bottom: -1.5em;
+  padding-top:1.5em;
+  top: 0em;
+  transition:  top 900ms ease 0s; 
+  -moz-transition: top 900ms ease 0s;
+  -webkit-transition:  top 900ms ease 0s;
+  -o-transition:  top 900ms ease 0s;
+}
+
+.form-group label.visible{
+  top: -3em;
+
+}
+
+/* Two Col to input */
+
+
+@media (min-width: 712px){
+  .form-item{
+    position: relative;
+    display: inline-block;
+  }
+
+  .form-item-2 .form-item:first-child{
+    width: 60%;
+    margin-right: 4%;
+  }
+
+  .form-item-2 .form-item:last-child{
+    width: 36%;
+
+  }
+}
+
+
+/* Button */
+.button-center{
+  margin-left: auto;
+  margin-right: auto;
+  display: flex;
+  align-items: center;
+}
+
+button{
+  height: 40px;
+  background: #37e6af none repeat scroll 0% 0%;
+  border: 1px none #7f95eb;
+  text-align: center;
+  justify-content: center;
+  color:#ffffff;
+  border-radius: 3px;
+  width: 50%;
+}
+
+button:hover, select:hover{
+  cursor: pointer;
+}
+
+@media (max-width: 712px){
+  button{
+    width: 100%;
+  }
+}
+
+
+/* dropmenu */
+.dropmenu {
+  position: relative;
+  float: left;
+  width: 100%;
+  margin-top: -1.9em;
+  z-index: 4;
+  cursor: pointer;
+  padding: 0.4em 0;
+}
+
+.dropmenu  ul {
+  position: absolute;
+  background-color: #fff;
+  min-width: 100%;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  padding: 12px 0;
+  z-index: 1;
+
+}
+
+.dropmenu li{
+ padding: 0.5em 2em;
+ font-size: 0.8em;
+}
+
+.dropmenu li:hover, .dropmenu li.active{
+  background-color: #5e7cf1;
+  color: #fff;
+}
+
