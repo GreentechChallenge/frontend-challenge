@@ -1,13 +1,16 @@
 import React from "react";
-import { challenges } from "./mock";
 import styles from "./form.module.css";
 import { GoogleSearch } from "../../../shared/google/autoComplete";
 import { validName, validPhone, validEmail, isNotNull, validDate } from "../../../shared/form/validation";
 import TextArea from "../../../shared/form/text-area";
 import { ReactDatez } from "react-datez";
 import "react-datez/dist/css/react-datez.css";
+import { objStrSort } from "../../../shared/object/sort";
+import { _CHALLENGES_API } from "../../../environments/endpoint/challenges/challenges";
+import { countPropertiesAndNoEmpty } from "../../../shared/object/check";
+import { _SIGNUP_CANDIDATE_API } from "../../../environments/endpoint/signup/candidate";
 
-export default class SignupForm extends React.Component {
+class SignupForm extends React.Component {
 
     constructor(props) {
         super(props);
@@ -15,9 +18,11 @@ export default class SignupForm extends React.Component {
         this.state = {
             challenges: [],
             searchaddress: [],
+            searchFirstPreview: "",
             searchPreview: "",
-            error: {},
-            errorMessage: {},
+            errors: {},
+            hasError: 0,
+            errorsMessage: {},
             labels: {}
         };
 
@@ -27,19 +32,30 @@ export default class SignupForm extends React.Component {
         this.handleChange = this.handleChange.bind(this);
         this.handleChangeDate = this.handleChangeDate.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleOnBlurValidation = this.handleOnBlurValidation.bind(this);
     }
 
     // Life Cicle
 
     componentDidMount() {
-        this.setState({
-            challenges: [...challenges.sort(function(a, b) {
-                return (a.title > b.title) ? 1 : ((b.title > a.title) ? -1 : 0);
-            })]
+        this.getChallenges();
 
-        });
     }
 
+    getChallenges() {
+        const tries = 3;
+        for (let i = 0; i < tries; i++) {
+            fetch(_CHALLENGES_API).then(async(response) => {
+                try {
+                    const challenges = await response.json();
+                    this.setState({
+                        challenges: challenges.sort(objStrSort("title"))
+                    });
+                    i = 3;
+                } catch (err) { }
+            });
+        }
+    }
 
 
 
@@ -49,6 +65,8 @@ export default class SignupForm extends React.Component {
 
         if (!isValid) {
             return "invalid";
+        } else {
+            return null;
         }
     }
 
@@ -56,14 +74,15 @@ export default class SignupForm extends React.Component {
 
     clearErrors() {
         this.setState({
-            error: {}
+            errors: {}
         });
     }
 
 
-    validationForm() {
-        this.setState({
-            error: {
+    async validationForm() {
+        let isValid = false;
+        await this.setState({
+            errors: {
                 name: this.getClassError(validName(this.state.name)),
                 phone: this.getClassError(validPhone(this.state.phone)),
                 email: this.getClassError(validEmail(this.state.email)),
@@ -73,7 +92,7 @@ export default class SignupForm extends React.Component {
                 description: this.getClassError(isNotNull(this.state.description)),
                 website: this.getClassError(isNotNull(this.state.website))
             },
-            errorMessage: {
+            errorsMessage: {
                 name: "Please insert full name",
                 phone: "Invalid number, please try only numbers",
                 email: "Them email should be like example@example.ex",
@@ -83,7 +102,10 @@ export default class SignupForm extends React.Component {
                 description: "This field can not be empty",
                 website: "This field can not be empty"
             }
+        }, () => {
+            isValid = (countPropertiesAndNoEmpty(this.state.errors) === 0) ? true : false;
         });
+        return isValid;
     }
 
     // Handles
@@ -110,11 +132,58 @@ export default class SignupForm extends React.Component {
     }
 
 
-    handleSubmit(e) {
+    async handleSubmit(e) {
         e.preventDefault();
-        this.clearErrors();
-        this.validationForm();
 
+        this.props.onLoading(true);
+        this.clearErrors();
+
+        const isValid = await this.validationForm();
+        if (isValid) {
+
+            const body = {
+                challenge: this.state.challenge,
+                name: this.state.name,
+                phone: this.state.phone,
+                email: this.state.email,
+                company: this.state.company,
+                date: this.state.date,
+                address: this.state.address,
+                vat: this.state.vat,
+                description: this.state.description,
+                website: this.state.website,
+                video: this.state.video
+            };
+
+
+            await fetch(_SIGNUP_CANDIDATE_API, {
+                method: "POST",
+                body: JSON.stringify(body),
+                headers: new Headers({
+                    "Content-type": "application/json; charset=UTF-8"
+                })
+            }).then(async(response) => {
+                try {
+                    this.props.successSubmit();
+                } catch (e) {
+                    this.submitError();
+                }
+            }).catch(this.submitError);
+        }
+
+        this.props.onLoading(false);
+
+    }
+
+    submitError() {
+        const errors = {
+            ...this.state.errors, ...{
+                submit: "Sorry, something went wrong. Please try again"
+            }
+        };
+        this.setState({
+            errors: errors
+        });
     }
 
     handleClickChangeAddress(e) {
@@ -159,43 +228,36 @@ export default class SignupForm extends React.Component {
 
 
         const errors = {
-            ...this.state.error, ...{
+            ...this.state.errors, ...{
                 [name]: this.getClassError(validation(value))
             }
         };
 
         const errorsMessage = {
-            ...this.state.errorMessage, ...{
+            ...this.state.errorsMessage, ...{
                 [name]: message
             }
         };
 
         this.setState({
-            error: errors,
-            errorMessage: errorsMessage
+            errors: errors,
+            errorsMessage: errorsMessage
         });
     }
 
     handleKeyDownSearch(e) {
         const { selectionStart, value } = e.target;
-        const { searchPreview } = this.state;
+        const { searchPreview, searchFirstPreview } = this.state;
 
 
         if (selectionStart === value.length) {
             if (searchPreview.length > 0) {
-                if (e.key === "ArrowRight") {
 
-                    this.setState({
-                        address: searchPreview
-                    });
-                    this.handleSearchClose();
-                }
-
-                if (e.key === "Tab") {
+                if (e.key === "Tab" || e.key === "ArrowRight") {
 
                     e.preventDefault();
                     this.setState({
-                        address: searchPreview
+                        address: searchFirstPreview
                     });
                     this.handleSearchClose();
                 }
@@ -220,6 +282,7 @@ export default class SignupForm extends React.Component {
 
 
         this.setState({
+            searchFirstPreview: firstSearch,
             searchaddress: searchElement,
             searchPreview: this.state.address + firstSearch.slice(this.state.address.length)
         });
@@ -249,7 +312,7 @@ export default class SignupForm extends React.Component {
                             this.handleOnChangeLabel(e);
                         }}
                         onBlur={(e) => this.handleOnBlurValidation(e)}
-                        className={this.state.error.challenge + " input-block"} >
+                        className={this.state.errors.challenge + " input-block"} >
                         <option
                             disabled
                             selected
@@ -267,7 +330,7 @@ export default class SignupForm extends React.Component {
                             </option>
                         )}
                     </select>
-                    <label className={"error-message " + this.state.error.challenge}>{this.state.errorMessage.challenge}</label>
+                    <label className={"error-message " + this.state.errors.challenge}>{this.state.errorsMessage.challenge}</label>
                 </div>
 
                 <div className="form-group">
@@ -280,10 +343,10 @@ export default class SignupForm extends React.Component {
                         onBlur={(e) => this.handleOnBlurValidation(e)}
                         name="name"
                         type="text"
-                        className={this.state.error.name + " input-block"}
+                        className={this.state.errors.name + " input-block"}
                         placeholder="Name of contact person"
                         value={this.state.name} />
-                    <label className={"error-message " + this.state.error.name}>{this.state.errorMessage.name}</label>
+                    <label className={"error-message " + this.state.errors.name}>{this.state.errorsMessage.name}</label>
 
                 </div>
 
@@ -297,10 +360,10 @@ export default class SignupForm extends React.Component {
                         onBlur={(e) => this.handleOnBlurValidation(e)}
                         name="phone"
                         type="text"
-                        className={this.state.error.phone + " input-block"}
+                        className={this.state.errors.phone + " input-block"}
                         placeholder="Phone number (incl. country code) of contact person"
                         value={this.state.phone} />
-                    <label className={"error-message " + this.state.error.phone}>{this.state.errorMessage.phone}</label>
+                    <label className={"error-message " + this.state.errors.phone}>{this.state.errorsMessage.phone}</label>
 
                 </div>
 
@@ -316,10 +379,10 @@ export default class SignupForm extends React.Component {
                         name="email"
                         value={this.state.email}
                         type="text"
-                        className={this.state.error.email + " input-block"}
+                        className={this.state.errors.email + " input-block"}
                         placeholder="Email of contact person"
                     />
-                    <label className={"error-message " + this.state.error.email}>{this.state.errorMessage.email}</label>
+                    <label className={"error-message " + this.state.errors.email}>{this.state.errorsMessage.email}</label>
 
                 </div>
 
@@ -335,11 +398,11 @@ export default class SignupForm extends React.Component {
                             name="company"
                             type="text"
                             value={this.state.company}
-                            className={this.state.error.company + " input-block"}
+                            className={this.state.errors.company + " input-block"}
                             placeholder="Company registration name"
 
                         />
-                        <label className={"error-message " + this.state.error.company}>{this.state.errorMessage.company}</label>
+                        <label className={"error-message " + this.state.errors.company}>{this.state.errorsMessage.company}</label>
 
                     </div>
 
@@ -347,11 +410,11 @@ export default class SignupForm extends React.Component {
                         <label className={this.state.labels.date}>Date of Incorporation</label>
                         <ReactDatez
 
-                            name="date"
+
                             handleChange={this.handleChangeDate}
                             value={this.state.date}
                             placeholder="Date of Incorporation"
-                            className={this.state.error.date + " input-block " + styles.inputDate}
+                            className={this.state.errors.date + " input-block " + styles.inputDate}
                             allowPast={true}
                             allowFuture={false}
                             disableInputIcon={true}
@@ -375,6 +438,7 @@ export default class SignupForm extends React.Component {
                         />
 
                         <GoogleSearch
+                            onLoading={(status) => this.props.onLoading(status)}
                             input={<input type="text" value={this.state.address}></input>}
                             onOpen={this.handleSearchOpen} onClose={this.handleSearchClose}
                             onBlur={(e) => {
@@ -387,12 +451,12 @@ export default class SignupForm extends React.Component {
                                 this.handleOnChangeLabel(e);
                             }}
                             onKeyDown={(e) => this.handleKeyDownSearch(e)}
-                            className={styles.inputSearch + "  input-block  " + this.state.error.address}
+                            className={styles.inputSearch + "  input-block  " + this.state.errors.address}
                             placeholder="Company address"
 
 
                         />
-                        <label className={"error-message " + this.state.error.address}>{this.state.errorMessage.address}</label>
+                        <label className={"error-message " + this.state.errors.address}>{this.state.errorsMessage.address}</label>
 
                     </div>
 
@@ -415,7 +479,7 @@ export default class SignupForm extends React.Component {
                         }}
                         value={this.state.vat}
                         type="text"
-                        className={this.state.error.vat + " input-block"}
+                        className={this.state.errors.vat + " input-block"}
                         placeholder="VAT number (Company registration number)" />
 
 
@@ -432,9 +496,9 @@ export default class SignupForm extends React.Component {
 
                         onBlur={(e) => this.handleOnBlurValidation(e)}
                         value={this.state.description}
-                        className={this.state.error.description + " input-block "}
+                        className={this.state.errors.description + " input-block " + styles.textarea}
                         placeholder="Short description of the company" />
-                    <label className={"error-message " + this.state.error.description}>{this.state.errorMessage.description}</label>
+                    <label className={"error-message " + this.state.errors.description}>{this.state.errorsMessage.description}</label>
 
                 </div>
 
@@ -450,9 +514,9 @@ export default class SignupForm extends React.Component {
                         value={this.state.website}
                         type="text"
 
-                        className={this.state.error.website + " input-block"}
+                        className={this.state.errors.website + " input-block"}
                         placeholder="Link to company website" />
-                    <label className={"error-message " + this.state.error.website}>{this.state.errorMessage.website}</label>
+                    <label className={"error-message " + this.state.errors.website}>{this.state.errorsMessage.website}</label>
 
                 </div>
 
@@ -466,13 +530,17 @@ export default class SignupForm extends React.Component {
                         }}
                         value={this.state.video}
                         type="text"
-                        className={this.state.error.video + " input-block"}
+                        className={this.state.errors.video + " input-block"}
                         placeholder="Link to product/service video (Youtube, Vimeo, etc.)" />
                 </div>
 
                 <button className="button-center"> Apply </button>
+                <p className="error-message invalid text-center mt-1">{this.state.errors.submit}</p>
+
 
             </form>
         );
     }
 }
+
+export default SignupForm;

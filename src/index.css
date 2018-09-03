@@ -89,6 +89,10 @@ img{
   margin-right: auto;
 }
 
+.mt-1{
+  margin-top: 1em;
+}
+
 .my-3{
   margin-top:3em;
   margin-bottom:3em;
@@ -108,8 +112,8 @@ img{
   text-align: center;
 }
 
-.input-block, .input-block input{
-  width: 100%;
+.text-bold{
+  font-weight: bold;
 }
 
 
@@ -169,10 +173,14 @@ input, select, textarea{
   box-shadow: none;
 }
 
+.input-block, .input-block input{
+  width: 100%;
+}
+
+
 textarea{
   font-size: 0.9em;
   line-height: 1;
-  padding: 4px;
 }
 
 input:focus, select:focus, textarea:focus{
@@ -180,10 +188,13 @@ input:focus, select:focus, textarea:focus{
   border-color:  #52a8ec;
 }
 
+
+/* Input Errors */
 input.invalid, select.invalid, textarea.invalid{
   box-shadow: #ff0000 0px 0px 6px 0px;
   border-color:  #ff0000;
 }
+
 
 .error-message{
   right:0;
@@ -194,6 +205,8 @@ input.invalid, select.invalid, textarea.invalid{
   top:2em;
 }
 
+/* Input with labels */
+
 .form-group{
   white-space:nowrap;
   position: relative;
@@ -203,6 +216,10 @@ input.invalid, select.invalid, textarea.invalid{
   margin-top: 0;
   padding-top:0;
   z-index: 2;
+}
+
+.form-group  textarea{
+  padding-top:0.5em;
 }
 
 .form-group label{
@@ -224,7 +241,7 @@ input.invalid, select.invalid, textarea.invalid{
 
 }
 
-
+/* Two Col to input */
 
 
 @media (min-width: 712px){

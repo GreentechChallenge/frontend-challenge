@@ -1,0 +1,90 @@
+{
+  "challenges": [
+    {
+      "id": 1,
+      "title": "Copenhagen - 2018"
+    },
+    {
+      "id": 2,
+      "title": "Paris - 2018"
+    },
+    {
+      "id": 3,
+      "title": "Stockholm - 2018"
+    }
+  ],
+  "candidate": [
+    {
+      "id": 1
+    },
+    {
+      "id": 2
+    },
+    {
+      "id": 3
+    },
+    {
+      "id": 4
+    },
+    {
+      "id": 5
+    },
+    {
+      "id": 6
+    },
+    {
+      "id": 7
+    },
+    {
+      "challenge": "2",
+      "name": "asa",
+      "phone": "+1515615",
+      "email": "asda@ada.com",
+      "company": "ad",
+      "date": "2018-09-02T00:00:00-03:00",
+      "address": "Ashdod, Israel",
+      "vat": "ads",
+      "description": "asd",
+      "website": "asd",
+      "video": "ads",
+      "id": 8
+    },
+    {
+      "challenge": "2",
+      "name": "\"Content-type\": \"application/json; charset=UTF-8\"",
+      "phone": "+1544564",
+      "email": "sada@asdas.com",
+      "company": "ads",
+      "address": "San Francisco, CA, USA",
+      "description": "asddas",
+      "website": "adsasd",
+      "id": 9
+    },
+    {
+      "challenge": "2",
+      "name": "dadssa",
+      "phone": "+4564566",
+      "email": "dadssa@dadssa.com",
+      "company": "dadssa",
+      "address": "dadssa",
+      "vat": "dadssa",
+      "description": "dadssa",
+      "website": "dadssa",
+      "video": "dadssa",
+      "id": 10
+    },
+    {
+      "challenge": "2",
+      "name": "dadssa",
+      "phone": "+15156156",
+      "email": "dadssa@dadssa.com",
+      "company": "asd",
+      "address": "Adsar, Bihar, India",
+      "vat": "das",
+      "description": "ads",
+      "website": "ads",
+      "video": "das",
+      "id": 11
+    }
+  ]
+}
