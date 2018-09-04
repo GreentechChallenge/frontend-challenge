@@ -1,0 +1,28 @@
+{
+  "name": "gtc",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "google-maps-react": "^2.0.2",
+    "react": "^16.4.2",
+    "react-datez": "^1.3.5",
+    "react-dom": "^16.4.2",
+    "react-progress-bar-plus": "^1.3.1",
+    "react-router-dom": "^4.3.1",
+    "react-scripts": "^1.1.5"
+  },
+  "scripts": {
+    "start": "set PORT=8080 && react-app-rewired start",
+    "build": "react-app-rewired build",
+    "lint": "eslint"
+  },
+  "devDependencies": {
+    "eslint": "^5.0.0-rc.0",
+    "eslint-plugin-mocha": "^5.2.0",
+    "eslint-plugin-react": "^7.11.1",
+    "node-sass": "^4.9.3",
+    "react-app-rewire-css-modules": "github:codebandits/react-app-rewire-css-modules",
+    "react-app-rewired": "^1.5.2",
+    "sass-loader": "^7.1.0"
+  }
+}
