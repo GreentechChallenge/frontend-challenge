@@ -1,0 +1,34 @@
+.form-horizontal {
+  width: 800px;
+  height: 900px;
+  background-color: rgb(255, 255, 255);
+  margin: auto;
+  padding: 30px 5px 15px 5px;
+}
+
+.panel-body {
+  padding: 30px 5px 30px 5px;
+  height: 1000px;
+  background-color: #F4F5F6;
+  margin: 0;
+}
+
+.panel-header {
+  margin-top: 40px;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.pHeader {
+  padding: 0px 20px 0px 20px;
+}
+
+.pRegister {
+  width: 800px;
+  height: 10px;
+  font-weight: bold;
+  color: grey;
+  margin-bottom: 0px;
+  line-height: 10%;
+  text-align: center;
+}
