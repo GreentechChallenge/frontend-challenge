@@ -1,135 +1,127 @@
 <div class="panel-body">
-	<form class="form-horizontal" [formGroup]="form" (ngSubmit)="onSubmit()">
-		<div class="image">
-			<img alt="" src="https://d1muf25xaso8hp.cloudfront.net/https%3A%2F%2Fs3.amazonaws.com%2Fappforest_uf%2Ff1521460704551x363558677490800640%2Fcover-photo.png?w=512&amp;h=189&amp;auto=compress&amp;fit=crop" style="display: block; margin: auto;">
-		</div>
-		<h3 class="panel-header">Interest form for GREENTECH CHALLENGE</h3>
-		<div class="p">
-				<p>Thank you for your interest in Green Tech Challenge. This is a non-binding Interest Form for participation in GREENTECH CHALLENGE. After submitting, you will receive a direct link to fill out your application through a section of more elaborate questions regarding your company.</p>
-				<p>We look very much forward to reading your application. If you have any questions please do not hesitate to get in touch at info@greentechchallenge.eu.</p>
-				<p>Thank you in advance.</p>
-    </div>
-
-    <ng-select formControlName="dropdown" [items]="cities" bindLabel="name" placeholder="Select a Challenge" [(ngModel)]="selectedCity">
-    </ng-select>
-    <div class="col-sm-12">
-        <app-field-control-error
-        [showError]="verifyValidTouched('dropdown')"
-        msgError="City Required">
-        </app-field-control-error>
+  <form class="form-horizontal" [formGroup]="form" (ngSubmit)="onSubmit()">
+      <div class="image">
+        <img alt="" src="https://d1muf25xaso8hp.cloudfront.net/https%3A%2F%2Fs3.amazonaws.com%2Fappforest_uf%2Ff1521460704551x363558677490800640%2Fcover-photo.png?w=512&amp;h=189&amp;auto=compress&amp;fit=crop" style="display: block; margin: auto;">
+      </div>
+      <h3 class="panel-header">Interest form for GREENTECH CHALLENGE</h3>
+      <div class="p">
+          <p>Thank you for your interest in Green Tech Challenge. This is a non-binding Interest Form for participation in GREENTECH CHALLENGE. After submitting, you will receive a direct link to fill out your application through a section of more elaborate questions regarding your company.</p>
+          <p>We look very much forward to reading your application. If you have any questions please do not hesitate to get in touch at info@greentechchallenge.eu.</p>
+          <p>Thank you in advance.</p>
       </div>
 
-		<div class="name" [ngClass]="applyCssError('name')">
-			<div class="col-sm-12">
-				<input type="text" class="form-control" formControlName="name" id="name" placeholder="Name of contact person">
-			</div>
-			<div class="col-sm-12">
-				<app-field-control-error
-				[showError]="verifyValidTouched('name')"
-				msgError="Name Required">
-				</app-field-control-error>
-			</div>
-		</div>
-
-		<div class="form-group" ng-class="applyCssError(phone)">
-			<div class="col-sm-12">
-				<input type="phone" class="form-control" formControlName="phone" id="phone" placeholder="Phone number (incl. country code) of contact person">
-			</div>
-			<div class="col-sm-12">
-				<app-field-control-error
-				[showError]="verifyValidTouched('phone')"
-				msgError="Phone Required">
-				</app-field-control-error>
-			</div>
-		</div>
-
-		<div class="form-group" ng-class="applyCssError(email)">
-			<div class="col-sm-12">
-				<input type="email" class="form-control" formControlName="email" id="email" placeholder="Email of contact person">
-			</div>
-			<div class="col-sm-12">
-				<app-field-control-error
-				[showError]="verifyValidTouched('email')"
-				msgError="Email Required">
-				</app-field-control-error>
-			</div>
-		</div>
-
-		<div class="row">
-			<div class="col-8" ng-class="applyCssError(company)">
-        <input type="company" class="form-control" formControlName="company" id="company" placeholder="Company registration name">
-				<app-field-control-error
-				[showError]="verifyValidTouched('company')"
-				msgError="Company registration Required">
-				</app-field-control-error>
-			</div>
-			<div class="col-4">
-        <my-date-picker disabled name="dateincorporation" [options]="myDatePickerOptions" formControlName="dateincorporation" placeholder="Date of incorporation"></my-date-picker>
-        <div class="date">
+      <ng-select formControlName="dropdown" [items]="cities" bindLabel="name" placeholder="Select a Challenge" [(ngModel)]="selectedCity">
+      </ng-select>
+      <div class="col-12">
           <app-field-control-error
-          [showError]="verifyValidTouched('dateincorporation')"
-          msgError="Date Required">
+          [showError]="verifyValidTouched('dropdown')"
+          msgError="City Required">
+          </app-field-control-error>
+        </div>
+
+      <div class="name" [ngClass]="applyCssError('name')">
+        <div class="col-12">
+          <input type="text" class="form-control" formControlName="name" id="name" placeholder="Name of contact person">
+        </div>
+        <div class="col-12">
+          <app-field-control-error
+          [showError]="verifyValidTouched('name')"
+          msgError="Name Required">
           </app-field-control-error>
         </div>
       </div>
-    </div>
 
-		<div class="form-group" ng-class="applyCssError(companyAddress)">
-			<div class="col-sm-12">
-        <input type="companyAddress" class="form-control" formControlName="companyAddress" id="pac-input" placeholder="Company Address">
-        <div id="map"></div>
+      <div class="form-group" ng-class="applyCssError(phone)">
+        <div class="col-12">
+          <input type="phone" class="form-control" formControlName="phone" id="phone" placeholder="Phone number (incl. country code) of contact person">
+        </div>
+        <div class="col-12">
+          <app-field-control-error
+          [showError]="verifyValidTouched('phone')"
+          msgError="Phone Required">
+          </app-field-control-error>
+        </div>
       </div>
-			<div class="col-sm-12">
-				<app-field-control-error
-				[showError]="verifyValidTouched('companyAddress')"
-				msgError="Company Address Required">
-				</app-field-control-error>
-			</div>
-		</div>
 
-		<div class="form-group">
-			<div class="col-sm-12">
-				<input type="vat" class="form-control" formControlName="vat" id="vat" placeholder="VAT Number (Company registration number)">
-			</div>
-		</div>
+      <div class="form-group" ng-class="applyCssError(email)">
+        <div class="col-12">
+          <input type="email" class="form-control" formControlName="email" id="email" placeholder="Email of contact person">
+        </div>
+        <div class="col-12">
+          <app-field-control-error
+          [showError]="verifyValidTouched('email')"
+          msgError="Email Required">
+          </app-field-control-error>
+        </div>
+      </div>
 
-		<div class="form-group" ng-class="applyCssError(mensage)">
-			<div class="col-sm-12">
-				<textarea class="form-control" rows="5" formControlName="mensage" id="mensage" placeholder="Short description of the company"></textarea>
-			</div>
-			<div class="col-sm-12">
-				<app-field-control-error
-				[showError]="verifyValidTouched('mensage')"
-				msgError="Message Required">
-				</app-field-control-error>
-			</div>
-		</div>
+      <div class="row">
+        <div class="col-12 col-sm-12 col-md-8 col-lg-8" ng-class="applyCssError(company)">
+          <input type="company" class="form-control" formControlName="company" id="company" placeholder="Company registration name">
+          <app-field-control-error
+          [showError]="verifyValidTouched('company')"
+          msgError="Company registration Required">
+          </app-field-control-error>
+        </div>
+        <div class="col-12 col-sm-12 col-md-4 col-lg-4">
+          <my-date-picker disabled name="dateincorporation" [options]="myDatePickerOptions" formControlName="dateincorporation" placeholder="Date of incorporation"></my-date-picker>
+          <div class="date">
+            <app-field-control-error
+            [showError]="verifyValidTouched('dateincorporation')"
+            msgError="Date Required">
+            </app-field-control-error>
+          </div>
+        </div>
+      </div>
 
-		<div class="form-group" ng-class="applyCssError(website)">
-			<div class="col-sm-12">
-				<input type="website" class="form-control" formControlName="website" id="website" placeholder="Link to company website">
-			</div>
-			<div class="col-sm-12">
-				<app-field-control-error
-				[showError]="verifyValidTouched('website')"
-				msgError="Website Required">
-				</app-field-control-error>
-			</div>
-		</div>
+      <div class="form-group" ng-class="applyCssError(companyAddress)">
+        <div class="col-12">
+          <input type="companyAddress" class="form-control" formControlName="companyAddress" id="pac-input" placeholder="Company Address">
+        </div>
+        <div class="col-12">
+          <app-field-control-error
+          [showError]="verifyValidTouched('companyAddress')"
+          msgError="Company Address Required">
+          </app-field-control-error>
+        </div>
+      </div>
 
-		<div class="form-group">
-			<div class="col-sm-12">
-				<input type="video" class="form-control" formControlName="video" id="video" placeholder="Link to product/service video (YouTube, Vimeo, etc)">
-			</div>
-    </div>
+      <div class="form-group">
+        <div class="col-12">
+          <input type="vat" class="form-control" formControlName="vat" id="vat" placeholder="VAT Number (Company registration number)">
+        </div>
+      </div>
 
-    <button type="submit" class="btn">APPLY</button>
+      <div class="form-group" ng-class="applyCssError(mensage)">
+        <div class="col-12">
+          <textarea class="form-control" rows="5" formControlName="mensage" id="mensage" placeholder="Short description of the company"></textarea>
+        </div>
+        <div class="col-12">
+          <app-field-control-error
+          [showError]="verifyValidTouched('mensage')"
+          msgError="Message Required">
+          </app-field-control-error>
+        </div>
+      </div>
+
+      <div class="form-group" ng-class="applyCssError(website)">
+        <div class="col-12">
+          <input type="website" class="form-control" formControlName="website" id="website" placeholder="Link to company website">
+        </div>
+        <div class="col-12">
+          <app-field-control-error
+          [showError]="verifyValidTouched('website')"
+          msgError="Website Required">
+          </app-field-control-error>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <div class="col-12">
+          <input type="video" class="form-control" formControlName="video" id="video" placeholder="Link to product/service video (YouTube, Vimeo, etc)">
+        </div>
+      </div>
+
+      <button type="submit" class="btn">APPLY</button>
   </form>
-
 </div>
-
-
-
-
-
-
