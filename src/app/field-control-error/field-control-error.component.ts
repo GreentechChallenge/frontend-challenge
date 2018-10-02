@@ -1,17 +1,11 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-field-control-error',
-  templateUrl: './field-control-error.component.html',
-  styleUrls: ['./field-control-error.component.css']
+  selector: 'app-register-challenge',
+  templateUrl: './register-challenge.component.html',
+  styleUrls: ['./register-challenge.component.css']
 })
-export class FieldControlErrorComponent implements OnInit {
-
-  @Input() showError: boolean;
-  @Input() msgError: boolean;
-
-  // @Input() showSuccess: boolean;
-  // @Input() msgSucess: boolean;
+export class RegisterChallengeComponent implements OnInit {
 
   constructor() { }
 

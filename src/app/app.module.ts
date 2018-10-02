@@ -1,3 +1,4 @@
+import { RouterModule } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { AppRoutingModule, routing } from './app-routing.module';
 import { FormChallengeModule } from './form-challenge/form-challenge.module';
@@ -29,7 +30,8 @@ import { RegisterChallengeComponent } from './register-challenge/register-challe
     AppRoutingModule,
     MyDatePickerModule,
     DropdownModule,
-    routing
+    routing,
+    RouterModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
