@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Challenge</title>
+  <base href="/">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD5cdDfwONnBTXg4c0MGQWil-4KqrLI3MM&libraries=places&callback=initAutocomplete" async defer></script>
+
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css"/>
+
+</head>
+<body>
+  <app-root></app-root>
+  <script>
+
+    function initAutocomplete() {
+      var directionsService = new google.maps.DirectionsService();
+      google.maps.event.addDomListener(window, 'load', function () {
+          new google.maps.places.SearchBox(document.getElementById('pac-input'));
+      });
+    }
+
+  </script>
+</body>
+</html>
